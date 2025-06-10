@@ -61,7 +61,7 @@ function CorrecaoForm() {
           <input type="number" name="percentual_cdi" value={formulario.percentual_cdi} onChange={handleChange} required step="0.01" />
         </label>
         <label>
-          CDI Plus (%):
+          CDI + (% ao ano):
           <input type="number" name="cdi_plus" value={formulario.cdi_plus} onChange={handleChange} required step="0.01" />
         </label>
         <label>
