@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface da Minha API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Interface da Minha API</h1>
+        
+        <div class="api-section">
+            <h2>Endpoint 1: Consulta</h2>
+            <form id="consultaForm">
+                <div class="form-group">
+                    <label for="param1">Parâmetro 1:</label>
+                    <input type="text" id="param1" name="param1" required>
+                </div>
+                <div class="form-group">
+                    <label for="param2">Parâmetro 2:</label>
+                    <input type="number" id="param2" name="param2">
+                </div>
+                <button type="submit">Enviar Consulta</button>
+            </form>
+            <div id="consultaResult" class="result-container"></div>
+        </div>
+
+        <div class="api-section">
+            <h2>Endpoint 2: Cadastro</h2>
+            <form id="cadastroForm">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="detalhes">Detalhes:</label>
+                    <textarea id="detalhes" name="detalhes"></textarea>
+                </div>
+                <button type="submit">Enviar Cadastro</button>
+            </form>
+            <div id="cadastroResult" class="result-container"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
