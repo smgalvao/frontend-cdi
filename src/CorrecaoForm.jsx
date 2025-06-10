@@ -22,7 +22,7 @@ function CorrecaoForm() {
     setErro("");
     setResultado(null);
     try {
-      const response = await axios.post("https://sua-api-no-render.onrender.com/api/calcular-correcao", {
+      const response = await axios.post("https://backend-cdi.onrender.com/api/calcular-correcao", {
         ...formulario,
         percentual_cdi: parseFloat(formulario.percentual_cdi),
         cdi_plus: parseFloat(formulario.cdi_plus),
