@@ -34,7 +34,14 @@ const CorrecaoForm = () => {
       alert("Erro ao calcular. Verifique os dados e tente novamente.");
     }
   };
+  
+const corrigirVisualizacaoData = (isoDateStr) => {
+  const date = new Date(isoDateStr);
+  date.setDate(date.getDate() + 1);
+  return date.toLocaleDateString('pt-BR');
+};
 
+  
   return (
     <div className="p-4 max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Calculadora de Correção CDI</h1>
@@ -65,8 +72,8 @@ const CorrecaoForm = () => {
       {resultado && (
         <div className="resultado">
           <h2>Resultado</h2>
-          <p><strong>Data Inicial:</strong> {formatarData(formulario.data_inicio)}</p>
-          <p><strong>Data Final:</strong> {formatarData(formulario.data_fim)}</p>
+          <p><strong>Data Inicial:</strong> {corrigirVisualizacaoData(dataInicio)}</p>
+          <p><strong>Data Final:</strong> {corrigirVisualizacaoData(dataFim)}</p>
           <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>
           <p><strong>Percentual CDI:</strong> {formatarPercentual(formulario.percentual_cdi)}</p>
           <p><strong>Taxa Pré:</strong> {formatarPercentual(formulario.percentual_cdi)} do CDI + {formatarPercentual(formulario.cdi_plus)}</p>
