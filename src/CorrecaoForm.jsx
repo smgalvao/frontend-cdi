@@ -80,7 +80,7 @@ function CorrecaoForm() {
           <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>
           <p><strong>Percentual CDI:</strong> {parseFloat(percentualCdi).toFixed(2)}%</p>
           <p><strong>CDI +:</strong> {parseFloat(cdiPlus).toFixed(2)}%</p>
-          <p><strong>Taxa:</strong> {formatarPercentual(formulario.percentual_cdi)} do CDI + {formatarPercentual(formulario.cdi_plus)}</p>
+          <p><strong>Taxa:</strong> {parseFloat(percentualCdi).toFixed(2)}% do CDI + {parseFloat(cdiPlus).toFixed(2)}%</p>
           <p><strong>Valor Base:</strong> {formatarMoeda(parseFloat(valorCorrigir))}</p>
           <p><strong>Fator de Correção:</strong> {resultado.fator_correcao.toFixed(8)}</p>
           <p><strong>Valor Corrigido:</strong> {formatarMoeda(resultado.valor_corrigido)}</p>
