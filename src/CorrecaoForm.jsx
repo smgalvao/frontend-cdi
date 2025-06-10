@@ -35,12 +35,11 @@ const CorrecaoForm = () => {
     }
   };
   
-const corrigirVisualizacaoData = (isoDateStr) => {
-  const date = new Date(isoDateStr);
-  date.setDate(date.getDate() + 1);
-  return date.toLocaleDateString('pt-BR');
-};
-
+  const formatarDataLocal = (dataIso) => {
+    const [ano, mes, dia] = dataIso.split('-');
+    const data = new Date(ano, mes - 1, dia);
+    return data.toLocaleDateString('pt-BR');
+  };
   
   return (
     <div className="p-4 max-w-xl mx-auto">
@@ -72,11 +71,10 @@ const corrigirVisualizacaoData = (isoDateStr) => {
       {resultado && (
         <div className="resultado">
           <h2>Resultado</h2>
-          <p><strong>Data Inicial:</strong> {corrigirVisualizacaoData(dataInicio)}</p>
-          <p><strong>Data Final:</strong> {corrigirVisualizacaoData(dataFim)}</p>
+          <p><strong>Data Inicial:</strong> {formatarDataLocal(dataInicio)}</p>
+          <p><strong>Data Final:</strong> {formatarDataLocal(dataFim)}</p>
           <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>
-          <p><strong>Percentual CDI:</strong> {formatarPercentual(formulario.percentual_cdi)}</p>
-          <p><strong>Taxa Pré:</strong> {formatarPercentual(formulario.percentual_cdi)} do CDI + {formatarPercentual(formulario.cdi_plus)}</p>
+          <p><strong>Taxa ao ano:</strong> {formatarPercentual(formulario.percentual_cdi)} do CDI + {formatarPercentual(formulario.cdi_plus)}</p>
           <p><strong>Valor Base:</strong> {formatarMoeda(formulario.valor_corrigir)}</p>
           <p><strong>Fator de Correção:</strong> {resultado.fator_correcao.toFixed(8)}</p>
           <p><strong>Valor Corrigido:</strong> {formatarMoeda(resultado.valor_corrigido)}</p>
