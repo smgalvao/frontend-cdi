@@ -93,6 +93,4 @@ function CorrecaoForm() {
 
 export default CorrecaoForm;
 
-export default CorrecaoForm;
-
 
