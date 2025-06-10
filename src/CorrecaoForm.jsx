@@ -79,7 +79,7 @@ function CorrecaoForm() {
           <p><strong>Data Final:</strong> {formatarDataLocal(dataFim)}</p>
           <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>     
           <p><strong>Taxa:</strong> {parseFloat(percentualCdi).toFixed(2)}% do CDI + {parseFloat(cdiPlus).toFixed(2)}%</p>
-          <p><strong>Fator de Correção:</strong> {resultado.fator_correcao.toFixed(8)}</p>
+          <p><strong>Fator de Correção:</strong> {resultado.fator_correcao.toFixed(8).replace('.', ',')}</p>
           <p><strong>Valor Base:</strong> {formatarMoeda(parseFloat(valorCorrigir))}</p>
           <p><strong>Valor Corrigido:</strong> {formatarMoeda(resultado.valor_corrigido)}</p>
           <p><strong>Valor da Correção:</strong> {formatarMoeda(resultado.valor_correcao)}</p>
