@@ -17,24 +17,23 @@ function CorrecaoForm() {
     setFormulario({ ...formulario, [e.target.name]: e.target.value });
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setErro("");
-  setResultado(null);
-  try {
-    const response = await axios.post("https:backend-cdi.onrender.com//api/calcular-correcao", {
-      ...formulario,
-      percentual_cdi: parseFloat(formulario.percentual_cdi),
-      cdi_plus: parseFloat(formulario.cdi_plus),
-      valor_corrigir: parseFloat(formulario.valor_corrigir)
-    });
-    setResultado(response.data);
-  } catch (err) {
-    console.error("Erro da API:", err.response?.data || err.message);
-    setErro(`Erro ao calcular a correção: ${err.response?.data?.detail || err.message}`);
-  }
-};
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErro("");
+    setResultado(null);
+    try {
+      const response = await axios.post("https://backend-cdi.onrender.com/api/calcular-correcao", {
+        ...formulario,
+        percentual_cdi: parseFloat(formulario.percentual_cdi),
+        cdi_plus: parseFloat(formulario.cdi_plus),
+        valor_corrigir: parseFloat(formulario.valor_corrigir)
+      });
+      setResultado(response.data);
+    } catch (err) {
+      console.error(err);
+      setErro("Erro ao calcular a correção. Verifique os dados e tente novamente.");
+    }
+  };
 
   const formatarMoeda = (valor) =>
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
