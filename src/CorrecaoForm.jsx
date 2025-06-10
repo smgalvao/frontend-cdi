@@ -1,77 +1,66 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function CorrecaoForm() {
-  const [formulario, setFormulario] = useState({
-    data_inicio: "",
-    data_fim: "",
-    percentual_cdi: "",
-    cdi_plus: "",
-    valor_corrigir: ""
-  });
-
+const CorrecaoForm = () => {
+  const [dataInicio, setDataInicio] = useState('');
+  const [dataFim, setDataFim] = useState('');
+  const [percentualCdi, setPercentualCdi] = useState('');
+  const [cdiPlus, setCdiPlus] = useState('');
+  const [valorCorrigir, setValorCorrigir] = useState('');
   const [resultado, setResultado] = useState(null);
-  const [erro, setErro] = useState("");
 
-  const handleChange = (e) => {
-    setFormulario({ ...formulario, [e.target.name]: e.target.value });
+  const ajustarData = (dateStr) => {
+    const date = new Date(dateStr);
+    const offsetMs = date.getTimezoneOffset() * 60000;
+    const localDate = new Date(date.getTime() - offsetMs);
+    return localDate.toISOString().slice(0, 10); // Formato 'YYYY-MM-DD'
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErro("");
-    setResultado(null);
+
     try {
-      const response = await axios.post("https://backend-cdi.onrender.com/api/calcular-correcao", {
-        ...formulario,
-        percentual_cdi: parseFloat(formulario.percentual_cdi),
-        cdi_plus: parseFloat(formulario.cdi_plus),
-        valor_corrigir: parseFloat(formulario.valor_corrigir)
+      const resposta = await axios.post('https://backend-cdi.onrender.com/api/calcular-correcao', {
+        data_inicio: ajustarData(dataInicio),
+        data_fim: ajustarData(dataFim),
+        percentual_cdi: parseFloat(percentualCdi),
+        cdi_plus: parseFloat(cdiPlus),
+        valor_corrigir: parseFloat(valorCorrigir),
       });
-      setResultado(response.data);
-    } catch (err) {
-      console.error(err);
-      setErro("Erro ao calcular a correção. Verifique os dados e tente novamente.");
+
+      setResultado(resposta.data);
+    } catch (error) {
+      console.error('Erro ao calcular:', error);
+      alert("Erro ao calcular. Verifique os dados e tente novamente.");
     }
   };
 
-  const formatarMoeda = (valor) =>
-    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-
-  const formatarPercentual = (valor) =>
-    `${parseFloat(valor).toFixed(2)}%`;
-
-  const formatarData = (dataISO) =>
-    new Date(dataISO).toLocaleDateString('pt-BR');
-
   return (
-    <div className="formulario">
-      <h1>Calculadora de Correção CDI</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Data Inicial:
-          <input type="date" name="data_inicio" value={formulario.data_inicio} onChange={handleChange} required />
-        </label>
-        <label>
-          Data Final:
-          <input type="date" name="data_fim" value={formulario.data_fim} onChange={handleChange} required />
-        </label>
-        <label>
-          Percentual CDI (%):
-          <input type="number" name="percentual_cdi" value={formulario.percentual_cdi} onChange={handleChange} required step="0.01" />
-        </label>
-        <label>
-          CDI Plus (%):
-          <input type="number" name="cdi_plus" value={formulario.cdi_plus} onChange={handleChange} required step="0.01" />
-        </label>
-        <label>
-          Valor a Corrigir (R$):
-          <input type="number" name="valor_corrigir" value={formulario.valor_corrigir} onChange={handleChange} required step="0.01" />
-        </label>
-        <button type="submit">Calcular</button>
+    <div className="p-4 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Calculadora de Correção CDI</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label>Data Inicial:</label>
+          <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} required className="border rounded px-2 py-1 w-full" />
+        </div>
+        <div>
+          <label>Data Final:</label>
+          <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} required className="border rounded px-2 py-1 w-full" />
+        </div>
+        <div>
+          <label>Percentual do CDI (%):</label>
+          <input type="number" step="0.01" value={percentualCdi} onChange={(e) => setPercentualCdi(e.target.value)} required className="border rounded px-2 py-1 w-full" />
+        </div>
+        <div>
+          <label>CDI Plus (%):</label>
+          <input type="number" step="0.01" value={cdiPlus} onChange={(e) => setCdiPlus(e.target.value)} required className="border rounded px-2 py-1 w-full" />
+        </div>
+        <div>
+          <label>Valor a Corrigir (R$):</label>
+          <input type="number" step="0.01" value={valorCorrigir} onChange={(e) => setValorCorrigir(e.target.value)} required className="border rounded px-2 py-1 w-full" />
+        </div>
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Calcular</button>
       </form>
-
-      {erro && <p style={{ color: "red" }}>{erro}</p>}
 
       {resultado && (
         <div className="resultado">
@@ -89,7 +78,10 @@ function CorrecaoForm() {
       )}
     </div>
   );
-}
+};
+
+export default CorrecaoForm;
+
 
 export default CorrecaoForm;
 
