@@ -1,68 +1,48 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Formulário de Consulta
-    const consultaForm = document.getElementById('consultaForm');
-    const consultaResult = document.getElementById('consultaResult');
-    
-    consultaForm.addEventListener('submit', async function(e) {
+    const form = document.getElementById('correcaoForm');
+    const resultadoDiv = document.getElementById('resultado');
+
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const formData = {
-            param1: document.getElementById('param1').value,
-            param2: document.getElementById('param2').value
+        // Mostrar loading
+        resultadoDiv.innerHTML = '<p>Calculando... Aguarde.</p>';
+
+        const requestData = {
+            data_inicio: document.getElementById('data_inicio').value,
+            data_fim: document.getElementById('data_fim').value,
+            percentual_cdi: parseFloat(document.getElementById('percentual_cdi').value),
+            cdi_plus: parseFloat(document.getElementById('cdi_plus').value),
+            valor_corrigir: parseFloat(document.getElementById('valor_corrigir').value)
         };
-        
+
         try {
-            consultaResult.innerHTML = '<p>Enviando consulta...</p>';
-            
-            // Substitua pela URL real da sua API
-            const response = await fetch('https://sua-api.com/endpoint-consulta', {
+            // Substitua pela URL do seu backend no Render
+            const response = await fetch('https://backend-api.onrender.com/api/calcular-correcao', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(requestData)
             });
-            
+
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+
             const data = await response.json();
             
-            // Formata a resposta para exibição
-            consultaResult.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            // Formatando o resultado
+            resultadoDiv.innerHTML = `
+                <h3>Resultado da Correção</h3>
+                <p><strong>Valor Original:</strong> R$ ${requestData.valor_corrigir.toFixed(2)}</p>
+                <p><strong>Valor Corrigido:</strong> R$ ${data.valor_corrigido.toFixed(2)}</p>
+                <p><strong>Correção:</strong> R$ ${data.valor_correcao.toFixed(2)}</p>
+                <p><strong>Fator de Correção:</strong> ${data.fator_correcao}</p>
+                <p><strong>Dias Úteis no Período:</strong> ${data.dias_uteis}</p>
+            `;
         } catch (error) {
-            consultaResult.innerHTML = `<p class="error">Erro na consulta: ${error.message}</p>`;
-        }
-    });
-    
-    // Formulário de Cadastro
-    const cadastroForm = document.getElementById('cadastroForm');
-    const cadastroResult = document.getElementById('cadastroResult');
-    
-    cadastroForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            nome: document.getElementById('nome').value,
-            email: document.getElementById('email').value,
-            detalhes: document.getElementById('detalhes').value
-        };
-        
-        try {
-            cadastroResult.innerHTML = '<p>Enviando cadastro...</p>';
-            
-            // Substitua pela URL real da sua API
-            const response = await fetch('https://sua-api.com/endpoint-cadastro', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-            
-            const data = await response.json();
-            
-            // Formata a resposta para exibição
-            cadastroResult.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        } catch (error) {
-            cadastroResult.innerHTML = `<p class="error">Erro no cadastro: ${error.message}</p>`;
+            resultadoDiv.innerHTML = `<p class="error">Erro no cálculo: ${error.message}</p>`;
         }
     });
 });
