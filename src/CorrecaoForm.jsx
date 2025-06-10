@@ -87,7 +87,3 @@ const CorrecaoForm = () => {
 
 export default CorrecaoForm;
 
-
-export default CorrecaoForm;
-
-
