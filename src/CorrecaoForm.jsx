@@ -60,7 +60,7 @@ function CorrecaoForm() {
           <input type="number" step="0.01" value={percentualCdi} onChange={(e) => setPercentualCdi(e.target.value)} required />
         </div>
         <div>
-          <label>CDI + (em % ao ano):</label>
+          <label>CDI + (% ao ano):</label>
           <input type="number" step="0.01" value={cdiPlus} onChange={(e) => setCdiPlus(e.target.value)} required />
         </div>
         <div>
@@ -77,12 +77,10 @@ function CorrecaoForm() {
           <h3>Resultado</h3>
           <p><strong>Data Inicial:</strong> {formatarDataLocal(dataInicio)}</p>
           <p><strong>Data Final:</strong> {formatarDataLocal(dataFim)}</p>
-          <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>
-          <p><strong>Percentual CDI:</strong> {parseFloat(percentualCdi).toFixed(2)}%</p>
-          <p><strong>CDI +:</strong> {parseFloat(cdiPlus).toFixed(2)}%</p>
+          <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>     
           <p><strong>Taxa:</strong> {parseFloat(percentualCdi).toFixed(2)}% do CDI + {parseFloat(cdiPlus).toFixed(2)}%</p>
-          <p><strong>Valor Base:</strong> {formatarMoeda(parseFloat(valorCorrigir))}</p>
           <p><strong>Fator de Correção:</strong> {resultado.fator_correcao.toFixed(8)}</p>
+          <p><strong>Valor Base:</strong> {formatarMoeda(parseFloat(valorCorrigir))}</p>
           <p><strong>Valor Corrigido:</strong> {formatarMoeda(resultado.valor_corrigido)}</p>
           <p><strong>Valor da Correção:</strong> {formatarMoeda(resultado.valor_correcao)}</p>
         </div>
