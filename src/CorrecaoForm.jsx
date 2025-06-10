@@ -22,7 +22,7 @@ function CorrecaoForm() {
     setErro("");
     setResultado(null);
     try {
-      const response = await axios.post("https://backend-cdi.onrender.com/api/calcular-correcao", {
+      const response = await axios.post("https://sua-api-no-render.onrender.com/api/calcular-correcao", {
         ...formulario,
         percentual_cdi: parseFloat(formulario.percentual_cdi),
         cdi_plus: parseFloat(formulario.cdi_plus),
@@ -61,7 +61,7 @@ function CorrecaoForm() {
           <input type="number" name="percentual_cdi" value={formulario.percentual_cdi} onChange={handleChange} required step="0.01" />
         </label>
         <label>
-          CDI + (% ao ano):
+          CDI Plus (%):
           <input type="number" name="cdi_plus" value={formulario.cdi_plus} onChange={handleChange} required step="0.01" />
         </label>
         <label>
@@ -78,10 +78,11 @@ function CorrecaoForm() {
           <h2>Resultado</h2>
           <p><strong>Data Inicial:</strong> {formatarData(formulario.data_inicio)}</p>
           <p><strong>Data Final:</strong> {formatarData(formulario.data_fim)}</p>
+          <p><strong>Dias Úteis:</strong> {resultado.dias_uteis}</p>
           <p><strong>Percentual CDI:</strong> {formatarPercentual(formulario.percentual_cdi)}</p>
-          <p><strong>Aplicação:</strong> {formatarPercentual(formulario.percentual_cdi)} do CDI + {formatarPercentual(formulario.cdi_plus)}</p>
+          <p><strong>Taxa Pré:</strong> {formatarPercentual(formulario.percentual_cdi)} do CDI + {formatarPercentual(formulario.cdi_plus)}</p>
           <p><strong>Valor Base:</strong> {formatarMoeda(formulario.valor_corrigir)}</p>
-          <p><strong>Valor Calculado:</strong> {formatarMoeda(resultado.valor_corrigido)}</p>
+          <p><strong>Fator de Correção:</strong> {resultado.fator_correcao.toFixed(8)}</p>
           <p><strong>Valor Corrigido:</strong> {formatarMoeda(resultado.valor_corrigido)}</p>
           <p><strong>Valor da Correção:</strong> {formatarMoeda(resultado.valor_correcao)}</p>
         </div>
@@ -91,4 +92,7 @@ function CorrecaoForm() {
 }
 
 export default CorrecaoForm;
+
+export default CorrecaoForm;
+
 
