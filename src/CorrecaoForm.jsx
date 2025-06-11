@@ -9,6 +9,32 @@ function CorrecaoForm() {
   const [valorCorrigir, setValorCorrigir] = useState('');
   const [resultado, setResultado] = useState(null);
   const [erro, setErro] = useState(null);
+  
+  const [dataMin, setDataMin] = useState(null);
+  const [dataMax, setDataMax] = useState(null);
+
+ // Função para formatar data no padrão pt-BR
+  const formatarDataLocal = (dataIso) => {
+    if (!dataIso) return '';
+    const [ano, mes, dia] = dataIso.split('T')[0].split('-');
+    const data = new Date(ano, mes - 1, dia);
+    return data.toLocaleDateString('pt-BR');
+  };
+
+    // Buscar as datas mínima e máxima do backend ao montar o componente
+  useEffect(() => {
+    async function buscarPeriodo() {
+      try {
+        const response = await axios.get('https://backend-cdi.onrender.com/api/periodo-disponivel');
+        setDataMin(response.data.data_min);
+        setDataMax(response.data.data_max);
+      } catch {
+        setDataMin(null);
+        setDataMax(null);
+      }
+    }
+    buscarPeriodo();
+  }, []);
 
   const formatarMoeda = (valor) =>
     valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -46,6 +72,11 @@ function CorrecaoForm() {
   return (
     <div style={{ maxWidth: 600, margin: '0 auto', padding: 20 }}>
       <h2>Calculadora de Correção CDI</h2>
+      {/* Mensagem em fonte menor e itálico */}
+      {(dataMin && dataMax) && (
+        <p style={{ fontStyle: 'italic', fontSize: '0.9em', marginTop: '-10px', marginBottom: '15px' }}>
+          Período disponível entre: {formatarDataLocal(dataMin)} até {formatarDataLocal(dataMax)}
+        </p>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Data Inicial:</label>
