@@ -21,11 +21,10 @@ function CorrecaoForm() {
     `${(valor * 100).toFixed(2)}%`;
 
   const formatarDataLocal = (dataIso) => {
-    if (!dataIso) return '';
-    const [ano, mes, dia] = dataIso.split('T')[0].split('-'); // remove hora se existir
-    const data = new Date(ano, mes - 1, dia);
-    return data.toLocaleDateString('pt-BR');
-  };
+  const data = new Date(dataIso);
+  if (isNaN(data)) return "Data inválida";
+  return data.toLocaleDateString('pt-BR');
+};
 
   // Buscar período disponível no backend ao montar o componente
   useEffect(() => {
