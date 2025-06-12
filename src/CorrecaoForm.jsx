@@ -21,12 +21,12 @@ function CorrecaoForm() {
     `${(valor * 100).toFixed(2)}%`;
 
   const formatarDataLocal = (dataIso) => {
-  const data = new Date(dataIso);
-  if (isNaN(data)) return "Data inválida";
-  return data.toLocaleDateString('pt-BR');
-};
+    const [ano, mes, dia] = dataIso.split('-');
+    const data = new Date(ano, mes - 1, dia);
+    return data.toLocaleDateString('pt-BR');
+  };
 
-  // Buscar período disponível no backend ao montar o componente
+// Buscar período disponível no backend ao montar o componente
   useEffect(() => {
     async function buscarPeriodo() {
       try {
@@ -77,55 +77,23 @@ function CorrecaoForm() {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Data Inicial:</label>
-          <input
-            type="date"
-            value={dataInicio}
-            onChange={(e) => setDataInicio(e.target.value)}
-            required
-            min={dataMin ? dataMin.split('T')[0] : undefined}
-            max={dataMax ? dataMax.split('T')[0] : undefined}
-          />
+          <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} required />
         </div>
         <div>
           <label>Data Final:</label>
-          <input
-            type="date"
-            value={dataFim}
-            onChange={(e) => setDataFim(e.target.value)}
-            required
-            min={dataMin ? dataMin.split('T')[0] : undefined}
-            max={dataMax ? dataMax.split('T')[0] : undefined}
-          />
+          <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} required />
         </div>
         <div>
           <label>% do CDI:</label>
-          <input
-            type="number"
-            step="0.01"
-            value={percentualCdi}
-            onChange={(e) => setPercentualCdi(e.target.value)}
-            required
-          />
+          <input type="number" step="0.01" value={percentualCdi} onChange={(e) => setPercentualCdi(e.target.value)} required />
         </div>
         <div>
           <label>CDI + (% ao ano):</label>
-          <input
-            type="number"
-            step="0.01"
-            value={cdiPlus}
-            onChange={(e) => setCdiPlus(e.target.value)}
-            required
-          />
+          <input type="number" step="0.01" value={cdiPlus} onChange={(e) => setCdiPlus(e.target.value)} required />
         </div>
         <div>
           <label>Valor a Corrigir (R$):</label>
-          <input
-            type="number"
-            step="0.01"
-            value={valorCorrigir}
-            onChange={(e) => setValorCorrigir(e.target.value)}
-            required
-          />
+          <input type="number" step="0.01" value={valorCorrigir} onChange={(e) => setValorCorrigir(e.target.value)} required />
         </div>
         <button type="submit">Calcular</button>
       </form>
@@ -150,4 +118,3 @@ function CorrecaoForm() {
 }
 
 export default CorrecaoForm;
-
